@@ -19,7 +19,8 @@ public class Page {
     private Long id;
     @Column(unique = true, nullable = false)
     private String uri;
-    @OneToOne(mappedBy = "page")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Link> links;

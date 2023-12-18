@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id
     @Column(unique = true, nullable = false)
-    private Integer id;
+    private String id;
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
@@ -23,7 +23,6 @@ public class User {
     private String location;
     @Column(nullable = false)
     private String bio;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "page_id")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Page page;
 }
