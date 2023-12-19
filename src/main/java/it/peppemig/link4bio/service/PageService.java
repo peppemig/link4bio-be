@@ -22,4 +22,8 @@ public class PageService {
         page.setUser(user);
         return pageRepository.save(page);
     }
+
+    public Page findPageByUserId(String userId) {
+        return pageRepository.findByUserId(userId).orElseThrow(() -> new EntityNotFoundException("Page not found for user with id: " + userId));
+    }
 }

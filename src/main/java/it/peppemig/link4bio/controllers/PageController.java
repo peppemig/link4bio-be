@@ -20,4 +20,10 @@ public class PageController {
         Page createdPage = pageService.savePage(userId, page);
         return new ResponseEntity<Page>(createdPage, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<Page> getPageByUserId(@PathVariable String userId) {
+        Page foundPage = pageService.findPageByUserId(userId);
+        return new ResponseEntity<Page>(foundPage, HttpStatus.OK);
+    }
 }
