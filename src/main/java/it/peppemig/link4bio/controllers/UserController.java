@@ -4,6 +4,7 @@ import it.peppemig.link4bio.entity.User;
 import it.peppemig.link4bio.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,8 +20,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
-        User createdUser = userService.saveUser(user);
+    public ResponseEntity<User> saveUser(Authentication auth, @RequestBody User user) {
+        User createdUser = userService.saveUser(auth.getName(), user);
         return new ResponseEntity<User>(createdUser, HttpStatus.CREATED);
     }
 }

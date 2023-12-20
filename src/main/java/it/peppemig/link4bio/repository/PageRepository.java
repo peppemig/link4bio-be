@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface PageRepository extends JpaRepository<Page, Long> {
     Optional<Page> findByUserId(String userId);
+    Optional<Page> findByUri(String uri);
 }

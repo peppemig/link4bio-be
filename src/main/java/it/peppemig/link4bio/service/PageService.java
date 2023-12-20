@@ -17,7 +17,7 @@ public class PageService {
         this.userRepository = userRepository;
     }
 
-    public Page savePage(String userId, Page page) {
+    public Page savePageForUser(String userId, Page page) {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
         page.setUser(user);
         return pageRepository.save(page);
@@ -25,5 +25,9 @@ public class PageService {
 
     public Page findPageByUserId(String userId) {
         return pageRepository.findByUserId(userId).orElseThrow(() -> new EntityNotFoundException("Page not found for user with id: " + userId));
+    }
+
+    public Page findPageByUri(String uri) {
+        return pageRepository.findByUri(uri).orElseThrow(() -> new EntityNotFoundException("Page not found for uri: " + uri));
     }
 }

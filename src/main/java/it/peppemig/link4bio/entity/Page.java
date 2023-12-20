@@ -24,8 +24,8 @@ public class Page {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
-    //@OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Link> links;
-    //@OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
-    //private List<Button> buttons;
+    @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Link> links;
+    @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Button> buttons;
 }
