@@ -1,5 +1,6 @@
 package it.peppemig.link4bio.controllers;
 
+import it.peppemig.link4bio.dto.LinkDTO;
 import it.peppemig.link4bio.entity.Link;
 import it.peppemig.link4bio.service.LinkService;
 import org.springframework.http.HttpStatus;
@@ -17,9 +18,15 @@ public class LinkController {
     }
 
     @PostMapping("/{pageId}")
-    public ResponseEntity<Link> saveLinkToPage(Authentication auth, @PathVariable Long pageId, @RequestBody Link link) {
-        Link createdLink = linkService.saveLinkToPage(auth.getName(), pageId, link);
-        return new ResponseEntity<Link>(createdLink, HttpStatus.CREATED);
+    public ResponseEntity<LinkDTO> saveLinkToPage(Authentication auth, @PathVariable Long pageId, @RequestBody Link link) {
+        LinkDTO createdLink = linkService.saveLinkToPage(auth.getName(), pageId, link);
+        return new ResponseEntity<LinkDTO>(createdLink, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{linkId}")
+    public ResponseEntity<LinkDTO> updateLinkById(Authentication auth, @PathVariable Long linkId, @RequestBody Link link) {
+        LinkDTO updatedLink = linkService.updateLink(auth.getName(), linkId, link);
+        return new ResponseEntity<LinkDTO>(updatedLink, HttpStatus.OK);
     }
 
     @DeleteMapping("/{linkId}")

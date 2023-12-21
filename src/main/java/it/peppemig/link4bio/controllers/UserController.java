@@ -1,5 +1,6 @@
 package it.peppemig.link4bio.controllers;
 
+import it.peppemig.link4bio.dto.UserDTO;
 import it.peppemig.link4bio.entity.User;
 import it.peppemig.link4bio.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> saveUser(Authentication auth, @RequestBody User user) {
-        User createdUser = userService.saveUser(auth.getName(), user);
-        return new ResponseEntity<User>(createdUser, HttpStatus.CREATED);
+    public ResponseEntity<UserDTO> saveUser(Authentication auth, @RequestBody User user) {
+        UserDTO createdUser = userService.saveUser(auth.getName(), user);
+        return new ResponseEntity<UserDTO>(createdUser, HttpStatus.CREATED);
     }
 }

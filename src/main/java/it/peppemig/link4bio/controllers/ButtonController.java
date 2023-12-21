@@ -1,5 +1,6 @@
 package it.peppemig.link4bio.controllers;
 
+import it.peppemig.link4bio.dto.ButtonDTO;
 import it.peppemig.link4bio.entity.Button;
 import it.peppemig.link4bio.service.ButtonService;
 import org.springframework.http.HttpStatus;
@@ -17,9 +18,15 @@ public class ButtonController {
     }
 
     @PostMapping("/{pageId}")
-    public ResponseEntity<Button> saveButtonToPage(Authentication auth, @PathVariable Long pageId, @RequestBody Button button) {
-        Button createdButton = buttonService.saveButtonToPage(auth.getName(), pageId, button);
-        return new ResponseEntity<Button>(createdButton, HttpStatus.CREATED);
+    public ResponseEntity<ButtonDTO> saveButtonToPage(Authentication auth, @PathVariable Long pageId, @RequestBody Button button) {
+        ButtonDTO createdButton = buttonService.saveButtonToPage(auth.getName(), pageId, button);
+        return new ResponseEntity<ButtonDTO>(createdButton, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{buttonId}")
+    public ResponseEntity<ButtonDTO> updateButtonById(Authentication auth, @PathVariable Long buttonId, @RequestBody Button button) {
+        ButtonDTO updatedButton = buttonService.updateButton(auth.getName(), buttonId, button);
+        return new ResponseEntity<ButtonDTO>(updatedButton, HttpStatus.OK);
     }
 
     @DeleteMapping("/{buttonId}")
