@@ -37,4 +37,8 @@ public class PageService {
         Page page = pageRepository.findByUri(uri).orElseThrow(() -> new EntityNotFoundException("Page not found for uri: " + uri));
         return modelMapper.map(page, PageDTO.class);
     }
+
+    public boolean checkIfUriIsTaken(String uri) {
+        return pageRepository.findByUri(uri).isPresent();
+    }
 }

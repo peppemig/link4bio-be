@@ -33,4 +33,10 @@ public class PageController {
         PageDTO foundPage = pageService.findPageByUri(uri);
         return new ResponseEntity<PageDTO>(foundPage, HttpStatus.OK);
     }
+
+    @GetMapping("/uri/{uri}/exists")
+    public ResponseEntity<Boolean> checkIfUriIsTaken(@PathVariable String uri) {
+        boolean isUriTaken = pageService.checkIfUriIsTaken(uri);
+        return new ResponseEntity<Boolean>(isUriTaken, HttpStatus.OK);
+    }
 }
