@@ -19,9 +19,7 @@ public class User {
     @Column(nullable = false)
     private String displayName;
     private String avatarUrl;
-    @Column(nullable = false)
     private String location;
-    @Column(nullable = false)
     private String bio;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Page page;
