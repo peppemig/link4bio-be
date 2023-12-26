@@ -41,4 +41,8 @@ public class PageService {
     public boolean checkIfUriIsTaken(String uri) {
         return pageRepository.findByUri(uri).isPresent();
     }
+
+    public boolean checkIfUserHasPage(String userId) {
+        return pageRepository.findByUserId(userId).isPresent();
+    }
 }

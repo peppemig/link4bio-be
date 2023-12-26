@@ -4,6 +4,7 @@ import it.peppemig.link4bio.dto.UserDTO;
 import it.peppemig.link4bio.entity.User;
 import it.peppemig.link4bio.exceptions.UnauthorizedException;
 import it.peppemig.link4bio.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +24,10 @@ public class UserService {
         }
         User newUser = userRepository.save(user);
         return modelMapper.map(newUser, UserDTO.class);
+    }
+
+    public UserDTO getUser(String userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found for user id: " + userId));
+        return modelMapper.map(user, UserDTO.class);
     }
 }

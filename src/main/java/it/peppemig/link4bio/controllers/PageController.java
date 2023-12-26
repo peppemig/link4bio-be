@@ -5,6 +5,7 @@ import it.peppemig.link4bio.entity.Page;
 import it.peppemig.link4bio.service.PageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,16 +17,22 @@ public class PageController {
         this.pageService = pageService;
     }
 
-    @PostMapping("/{userId}")
-    public ResponseEntity<PageDTO> savePageForUser(@PathVariable String userId, @RequestBody Page page) {
-        PageDTO createdPage = pageService.savePageForUser(userId, page);
+    @PostMapping("")
+    public ResponseEntity<PageDTO> savePageForUser(Authentication auth, @RequestBody Page page) {
+        PageDTO createdPage = pageService.savePageForUser(auth.getName(), page);
         return new ResponseEntity<PageDTO>(createdPage, HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<PageDTO> getPageByUserId(@PathVariable String userId) {
-        PageDTO foundPage = pageService.findPageByUserId(userId);
+    @GetMapping("/user")
+    public ResponseEntity<PageDTO> getPageByUserId(Authentication auth) {
+        PageDTO foundPage = pageService.findPageByUserId(auth.getName());
         return new ResponseEntity<PageDTO>(foundPage, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/exists")
+    public ResponseEntity<Boolean> checkIfUserHasPage(Authentication auth) {
+        Boolean userHasPage = pageService.checkIfUserHasPage(auth.getName());
+        return new ResponseEntity<Boolean>(userHasPage, HttpStatus.OK);
     }
 
     @GetMapping("/uri/{uri}")
@@ -39,4 +46,5 @@ public class PageController {
         boolean isUriTaken = pageService.checkIfUriIsTaken(uri);
         return new ResponseEntity<Boolean>(isUriTaken, HttpStatus.OK);
     }
+
 }
