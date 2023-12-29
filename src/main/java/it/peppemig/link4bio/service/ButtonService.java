@@ -54,7 +54,6 @@ public class ButtonService {
         if (!existingButton.getPage().getUser().getId().equals(userId)) {
             throw new UnauthorizedException("Not authorized");
         }
-        existingButton.setName(button.getName());
         existingButton.setUrl(button.getUrl());
         Button updatedButton = buttonRepository.save(existingButton);
         return modelMapper.map(updatedButton, ButtonDTO.class);
