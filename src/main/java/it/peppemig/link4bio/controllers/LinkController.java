@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/links")
 public class LinkController {
@@ -17,10 +19,10 @@ public class LinkController {
         this.linkService = linkService;
     }
 
-    @PostMapping("/{pageId}")
-    public ResponseEntity<LinkDTO> saveLinkToPage(Authentication auth, @PathVariable Long pageId, @RequestBody Link link) {
-        LinkDTO createdLink = linkService.saveLinkToPage(auth.getName(), pageId, link);
-        return new ResponseEntity<LinkDTO>(createdLink, HttpStatus.CREATED);
+    @PostMapping("/{uri}")
+    public ResponseEntity<List<LinkDTO>> saveLinksToPage(Authentication auth, @PathVariable String uri, @RequestBody List<Link> links) {
+        List<LinkDTO> createdLinks = linkService.saveLinksToPage(auth.getName(), uri, links);
+        return new ResponseEntity<List<LinkDTO>>(createdLinks, HttpStatus.CREATED);
     }
 
     @PutMapping("/{linkId}")

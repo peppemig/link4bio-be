@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/buttons")
 public class ButtonController {
@@ -17,10 +19,10 @@ public class ButtonController {
         this.buttonService = buttonService;
     }
 
-    @PostMapping("/{pageId}")
-    public ResponseEntity<ButtonDTO> saveButtonToPage(Authentication auth, @PathVariable Long pageId, @RequestBody Button button) {
-        ButtonDTO createdButton = buttonService.saveButtonToPage(auth.getName(), pageId, button);
-        return new ResponseEntity<ButtonDTO>(createdButton, HttpStatus.CREATED);
+    @PostMapping("/{uri}")
+    public ResponseEntity<List<ButtonDTO>> saveButtonsToPage(Authentication auth, @PathVariable String uri, @RequestBody List<Button> buttons) {
+        List<ButtonDTO> createdButtons = buttonService.saveButtonsToPage(auth.getName(), uri, buttons);
+        return new ResponseEntity<List<ButtonDTO>>(createdButtons, HttpStatus.CREATED);
     }
 
     @PutMapping("/{buttonId}")

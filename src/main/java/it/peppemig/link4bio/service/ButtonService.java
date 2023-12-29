@@ -10,6 +10,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ButtonService {
     private final ButtonRepository buttonRepository;
@@ -22,15 +25,29 @@ public class ButtonService {
         this.modelMapper = modelMapper;
     }
 
-    public ButtonDTO saveButtonToPage(String userId, Long pageId, Button button) {
-        Page page = pageRepository.findById(pageId).orElseThrow(() -> new EntityNotFoundException("Page not found with ID: " + pageId));
+    public List<ButtonDTO> saveButtonsToPage(String userId, String uri, List<Button> buttons) {
+        Page page = pageRepository.findByUri(uri).orElseThrow(() -> new EntityNotFoundException("Page not found with URI: " + uri));
         if (!page.getUser().getId().equals(userId)) {
             throw new UnauthorizedException("Not authorized");
         }
-        button.setPage(page);
-        Button newButton = buttonRepository.save(button);
-        return modelMapper.map(newButton, ButtonDTO.class);
+        List<ButtonDTO> savedButtons = new ArrayList<>();
+        for (Button button : buttons) {
+            button.setPage(page);
+            Button newButton = buttonRepository.save(button);
+            savedButtons.add(modelMapper.map(newButton, ButtonDTO.class));
+        }
+        return savedButtons;
     }
+
+    //public ButtonDTO saveButtonToPage(String userId, Long pageId, Button button) {
+    //    Page page = pageRepository.findById(pageId).orElseThrow(() -> new EntityNotFoundException("Page not found with ID: " + pageId));
+    //    if (!page.getUser().getId().equals(userId)) {
+    //        throw new UnauthorizedException("Not authorized");
+    //    }
+    //    button.setPage(page);
+    //    Button newButton = buttonRepository.save(button);
+    //    return modelMapper.map(newButton, ButtonDTO.class);
+    //}
 
     public ButtonDTO updateButton(String userId, Long buttonId, Button button) {
         Button existingButton = buttonRepository.findById(buttonId).orElseThrow(() -> new EntityNotFoundException("Button not found with ID: " + buttonId));

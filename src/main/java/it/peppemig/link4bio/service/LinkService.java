@@ -10,6 +10,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class LinkService {
     private final LinkRepository linkRepository;
@@ -22,15 +25,29 @@ public class LinkService {
         this.modelMapper = modelMapper;
     }
 
-    public LinkDTO saveLinkToPage(String userId, Long pageId, Link link) {
-        Page page = pageRepository.findById(pageId).orElseThrow(() -> new EntityNotFoundException("Page not found with ID: " + pageId));
+    public List<LinkDTO> saveLinksToPage(String userId, String uri, List<Link> links) {
+        Page page = pageRepository.findByUri(uri).orElseThrow(() -> new EntityNotFoundException("Page not found with URI: " + uri));
         if (!page.getUser().getId().equals(userId)) {
             throw new UnauthorizedException("Not authorized");
         }
-        link.setPage(page);
-        Link newLink = linkRepository.save(link);
-        return modelMapper.map(newLink, LinkDTO.class);
+        List<LinkDTO> savedLinks = new ArrayList<>();
+        for (Link link : links) {
+            link.setPage(page);
+            Link newLink = linkRepository.save(link);
+            savedLinks.add(modelMapper.map(newLink, LinkDTO.class));
+        }
+        return savedLinks;
     }
+
+    //public LinkDTO saveLinkToPage(String userId, Long pageId, Link link) {
+    //    Page page = pageRepository.findById(pageId).orElseThrow(() -> new EntityNotFoundException("Page not found with ID: " + pageId));
+    //    if (!page.getUser().getId().equals(userId)) {
+    //        throw new UnauthorizedException("Not authorized");
+    //    }
+    //    link.setPage(page);
+    //    Link newLink = linkRepository.save(link);
+    //    return modelMapper.map(newLink, LinkDTO.class);
+    //}
 
     public LinkDTO updateLink(String userId, Long linkId, Link link) {
         Link existingLink = linkRepository.findById(linkId).orElseThrow(() -> new EntityNotFoundException("Link not found with ID: " + linkId));
