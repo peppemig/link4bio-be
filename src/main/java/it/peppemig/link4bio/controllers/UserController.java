@@ -1,6 +1,7 @@
 package it.peppemig.link4bio.controllers;
 
 import it.peppemig.link4bio.dto.DetailsDTO;
+import it.peppemig.link4bio.dto.InfosDTO;
 import it.peppemig.link4bio.dto.PageDTO;
 import it.peppemig.link4bio.dto.UserDTO;
 import it.peppemig.link4bio.entity.User;
@@ -29,6 +30,12 @@ public class UserController {
     public ResponseEntity<PageDTO> saveDetailsForUser(Authentication auth, @RequestBody DetailsDTO details) {
         PageDTO newPageWithDetails = userService.saveDetailsForUser(auth.getName(), details);
         return new ResponseEntity<PageDTO>(newPageWithDetails, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/infos")
+    public ResponseEntity<UserDTO> updateUserInfos(Authentication auth, @RequestBody InfosDTO infos) {
+        UserDTO updatedUser = userService.updateUserInfos(auth.getName(), infos);
+        return new ResponseEntity<UserDTO>(updatedUser, HttpStatus.OK);
     }
 
     @GetMapping("")

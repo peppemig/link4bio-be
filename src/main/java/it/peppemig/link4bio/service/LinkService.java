@@ -56,7 +56,7 @@ public class LinkService {
         }
         existingLink.setTitle(link.getTitle());
         existingLink.setSubtitle(link.getSubtitle());
-        existingLink.setImageUrl(link.getImageUrl());
+        //existingLink.setImageUrl(link.getImageUrl());
         existingLink.setUrl(link.getUrl());
         Link updatedLink = linkRepository.save(existingLink);
         return modelMapper.map(updatedLink, LinkDTO.class);

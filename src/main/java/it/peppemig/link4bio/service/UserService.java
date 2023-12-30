@@ -1,6 +1,7 @@
 package it.peppemig.link4bio.service;
 
 import it.peppemig.link4bio.dto.DetailsDTO;
+import it.peppemig.link4bio.dto.InfosDTO;
 import it.peppemig.link4bio.dto.PageDTO;
 import it.peppemig.link4bio.dto.UserDTO;
 import it.peppemig.link4bio.entity.Page;
@@ -41,6 +42,15 @@ public class UserService {
         newPage.setUser(user);
         Page createdPage = pageRepository.save(newPage);
         return modelMapper.map(createdPage, PageDTO.class);
+    }
+
+    public UserDTO updateUserInfos(String userId, InfosDTO infos) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+        user.setDisplayName(infos.getDisplayName());
+        user.setLocation(infos.getLocation());
+        user.setBio(infos.getBio());
+        User updatedUser = userRepository.save(user);
+        return modelMapper.map(updatedUser, UserDTO.class);
     }
 
     public UserDTO getUser(String userId) {
