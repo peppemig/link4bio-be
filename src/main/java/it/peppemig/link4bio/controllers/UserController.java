@@ -43,4 +43,10 @@ public class UserController {
         UserDTO user = userService.getUser(auth.getName());
         return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
     }
+
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> checkIfUserExists(Authentication auth) {
+        Boolean userExists = userService.checkIfUserExists(auth.getName());
+        return new ResponseEntity<Boolean>(userExists, HttpStatus.OK);
+    }
 }

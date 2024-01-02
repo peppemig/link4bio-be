@@ -57,4 +57,8 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found for user id: " + userId));
         return modelMapper.map(user, UserDTO.class);
     }
+
+    public boolean checkIfUserExists(String userId) {
+        return userRepository.findById(userId).isPresent();
+    }
 }
