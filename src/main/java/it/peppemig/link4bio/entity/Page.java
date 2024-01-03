@@ -28,4 +28,8 @@ public class Page {
     private List<Link> links;
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Button> buttons;
+    @OneToOne
+    @JoinColumn(name = "theme")
+    @JsonIgnore
+    private Theme theme;
 }
