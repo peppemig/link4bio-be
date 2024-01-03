@@ -15,4 +15,5 @@ public class PageDTO {
     private UserDTO user;
     private List<LinkDTO> links;
     private List<ButtonDTO> buttons;
+    private ThemeDTO theme;
 }

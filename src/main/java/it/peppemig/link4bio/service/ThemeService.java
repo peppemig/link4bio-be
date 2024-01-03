@@ -1,5 +1,6 @@
 package it.peppemig.link4bio.service;
 
+import it.peppemig.link4bio.dto.PageDTO;
 import it.peppemig.link4bio.dto.ThemeDTO;
 import it.peppemig.link4bio.entity.Page;
 import it.peppemig.link4bio.entity.Theme;
@@ -27,8 +28,9 @@ public class ThemeService {
         if (!page.getUser().getId().equals(userId)) {
             throw new UnauthorizedException("Not authorized");
         }
-        theme.setPage(page);
+        page.setTheme(theme);
         Theme newTheme = themeRepository.save(theme);
+        Page updatedPage = pageRepository.save(page);
         return modelMapper.map(newTheme, ThemeDTO.class);
     }
 }

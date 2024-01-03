@@ -1,5 +1,6 @@
 package it.peppemig.link4bio.controllers;
 
+import it.peppemig.link4bio.dto.PageDTO;
 import it.peppemig.link4bio.dto.ThemeDTO;
 import it.peppemig.link4bio.entity.Theme;
 import it.peppemig.link4bio.service.ThemeService;

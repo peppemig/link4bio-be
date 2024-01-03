@@ -29,7 +29,7 @@ public class Page {
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Button> buttons;
     @OneToOne
-    @JoinColumn(name = "theme")
+    @JoinColumn(name = "theme_id")
     @JsonIgnore
     private Theme theme;
 }
