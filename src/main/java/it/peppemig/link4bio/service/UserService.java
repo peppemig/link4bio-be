@@ -12,16 +12,24 @@ import it.peppemig.link4bio.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Map;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
     private final PageRepository pageRepository;
+    private final CloudinaryService cloudinaryService;
     private final ModelMapper modelMapper;
 
-    public UserService(UserRepository userRepository, PageRepository pageRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository, PageRepository pageRepository, CloudinaryService cloudinaryService, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.pageRepository = pageRepository;
+        this.cloudinaryService = cloudinaryService;
         this.modelMapper = modelMapper;
     }
 
@@ -42,6 +50,16 @@ public class UserService {
         newPage.setUser(user);
         Page createdPage = pageRepository.save(newPage);
         return modelMapper.map(createdPage, PageDTO.class);
+    }
+
+    public String saveAvatarForUser(String userId, MultipartFile multipartFile) throws IOException {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+        BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+        Map result = cloudinaryService.upload(multipartFile);
+        String avatarUrl = (String) result.get("url");
+        user.setAvatarUrl(avatarUrl);
+        userRepository.save(user);
+        return avatarUrl;
     }
 
     public UserDTO updateUserInfos(String userId, InfosDTO infos) {

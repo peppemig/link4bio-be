@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/user")
@@ -30,6 +33,12 @@ public class UserController {
     public ResponseEntity<PageDTO> saveDetailsForUser(Authentication auth, @RequestBody DetailsDTO details) {
         PageDTO newPageWithDetails = userService.saveDetailsForUser(auth.getName(), details);
         return new ResponseEntity<PageDTO>(newPageWithDetails, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/upload/avatar")
+    public ResponseEntity<String> saveAvatarForUser(Authentication auth, @RequestParam MultipartFile multipartFile) throws IOException {
+        String avatarUrl = userService.saveAvatarForUser(auth.getName(), multipartFile);
+        return new ResponseEntity<String>(avatarUrl, HttpStatus.OK);
     }
 
     @PutMapping("/infos")
