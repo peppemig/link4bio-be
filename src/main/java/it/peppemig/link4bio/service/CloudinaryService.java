@@ -42,6 +42,13 @@ public class CloudinaryService {
         return cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
     }
 
+    public String getImageIdFromUrl(String url) {
+        int lastSlashIndex = url.lastIndexOf("/");
+        String valueAfterLastSlash = url.substring(lastSlashIndex + 1);
+        int lastDotIndex = valueAfterLastSlash.lastIndexOf(".");
+        return valueAfterLastSlash.substring(0, lastDotIndex);
+    }
+
     private File convert(MultipartFile multipartFile) throws IOException {
         File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         FileOutputStream fo = new FileOutputStream(file);

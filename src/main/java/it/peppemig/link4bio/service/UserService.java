@@ -54,7 +54,11 @@ public class UserService {
 
     public String saveAvatarForUser(String userId, MultipartFile multipartFile) throws IOException {
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
-        BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+        String currentAvatarUrl = user.getAvatarUrl();
+        if (currentAvatarUrl != null) {
+            String imageId = cloudinaryService.getImageIdFromUrl(currentAvatarUrl);
+            cloudinaryService.delete(imageId);
+        }
         Map result = cloudinaryService.upload(multipartFile);
         String avatarUrl = (String) result.get("url");
         user.setAvatarUrl(avatarUrl);
