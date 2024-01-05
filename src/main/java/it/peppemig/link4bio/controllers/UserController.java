@@ -36,9 +36,9 @@ public class UserController {
     }
 
     @PostMapping("/upload/avatar")
-    public ResponseEntity<String> saveAvatarForUser(Authentication auth, @RequestParam MultipartFile multipartFile) throws IOException {
+    public ResponseEntity<?> saveAvatarForUser(Authentication auth, @RequestParam MultipartFile multipartFile) throws IOException {
         String avatarUrl = userService.saveAvatarForUser(auth.getName(), multipartFile);
-        return new ResponseEntity<String>(avatarUrl, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/infos")
