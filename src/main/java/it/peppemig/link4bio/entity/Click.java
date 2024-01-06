@@ -22,5 +22,5 @@ public class Click {
     private Link link;
     @Temporal(TemporalType.DATE)
     private Date clickDate;
-    private int clickCount = 0;
+    private int clickCount = 1;
 }
