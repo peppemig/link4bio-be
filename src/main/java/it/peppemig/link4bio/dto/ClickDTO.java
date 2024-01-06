@@ -1,15 +1,16 @@
 package it.peppemig.link4bio.dto;
 
-import it.peppemig.link4bio.enums.ButtonName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ButtonDTO {
+public class ClickDTO {
     private Long id;
-    private ButtonName name;
-    private String url;
+    private Date clickDate;
+    private int clickCount;
 }

@@ -39,16 +39,6 @@ public class ButtonService {
         return savedButtons;
     }
 
-    //public ButtonDTO saveButtonToPage(String userId, Long pageId, Button button) {
-    //    Page page = pageRepository.findById(pageId).orElseThrow(() -> new EntityNotFoundException("Page not found with ID: " + pageId));
-    //    if (!page.getUser().getId().equals(userId)) {
-    //        throw new UnauthorizedException("Not authorized");
-    //    }
-    //    button.setPage(page);
-    //    Button newButton = buttonRepository.save(button);
-    //    return modelMapper.map(newButton, ButtonDTO.class);
-    //}
-
     public ButtonDTO updateButton(String userId, Long buttonId, Button button) {
         Button existingButton = buttonRepository.findById(buttonId).orElseThrow(() -> new EntityNotFoundException("Button not found with ID: " + buttonId));
         if (!existingButton.getPage().getUser().getId().equals(userId)) {

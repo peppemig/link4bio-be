@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -23,9 +25,10 @@ public class Link {
     private String imageUrl;
     @Column(nullable = false)
     private String url;
-    private Integer clickCount = 0;
     @ManyToOne
     @JoinColumn(name = "page_id")
     @JsonIgnore
     private Page page;
+    @OneToMany(mappedBy = "link", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Click> clicks;
 }

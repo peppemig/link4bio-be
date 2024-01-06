@@ -13,5 +13,4 @@ public class LinkDTO {
     private String subtitle;
     private String imageUrl;
     private String url;
-    private Integer clickCount;
 }

@@ -22,7 +22,6 @@ public class Button {
     private ButtonName name;
     @Column(nullable = false)
     private String url;
-    private Integer clickCount = 0;
     @ManyToOne
     @JoinColumn(name = "page_id")
     @JsonIgnore
