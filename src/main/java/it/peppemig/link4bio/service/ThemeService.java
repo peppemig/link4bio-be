@@ -28,6 +28,12 @@ public class ThemeService {
         if (!page.getUser().getId().equals(userId)) {
             throw new UnauthorizedException("Not authorized");
         }
+        Theme currentTheme = page.getTheme();
+        if (currentTheme != null) {
+            page.setTheme(null);
+            pageRepository.save(page);
+            themeRepository.delete(currentTheme);
+        }
         page.setTheme(theme);
         Theme newTheme = themeRepository.save(theme);
         Page updatedPage = pageRepository.save(page);
